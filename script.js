@@ -20,5 +20,5 @@ problemSelector.addEventListener("change", function(event) {
 let data
 fetch('./statement001.html')
 	.then(function(response) {
-    data = response;
+    data = response.text();
 });
