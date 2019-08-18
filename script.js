@@ -20,5 +20,7 @@ problemSelector.addEventListener("change", function(event) {
 let data
 fetch('./statement001.html')
 	.then(function(response) {
-    data = response.text();
+    data = response.text().then(function(text) {
+			problemCollection["001"].statement = text;
+		});
 });
