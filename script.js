@@ -17,8 +17,8 @@ problemSelector.addEventListener("change", function(event) {
   console.log("switch to problem ", problem);
   problemStatement.innerHTML = problemCollection[`${problem}`].statement;
 });
-
+let data
 fetch('./statement001.html')
-  .then(function(response) {
-    console.log(response);
-	});
+	.then(function(response) {
+    data = response;
+});
