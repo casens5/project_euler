@@ -11,7 +11,7 @@ function sumOfMultiples(limit, factor) {
   return sum
 }
 
-function euler1() {
+function euler001() {
 	let threes = sumOfMultiples(1000, 3);
 	let fives = sumOfMultiples(1000, 5);
 	let fifteens = sumOfMultiples(1000, 15);
