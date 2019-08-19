@@ -4,6 +4,9 @@ const problemSelector = document.querySelector("#problemSelector");
 const problemStatement = document.querySelector("#problemStatement");
 const problemCode = document.querySelector("#problemCode");
 const problemOutput = document.querySelector("#problemOutput");
+const executeBtn = document.querySelector("#execute");
+const functionsObj = {};
+let currentProblem;
 
 const problemCollection = {};
 
@@ -37,6 +40,16 @@ function loadProblemElements(id) {
   document.head.appendChild(script);
 	problemStatement.innerHTML = problemCollection[id].statement;
 	problemCode.textContent = problemCollection[id].code;
+
+	assignProblem();
+}
+
+function displayResult(result) {
+	problemOutput.textContent = result;
+}
+
+function assignProblem() {
+	executeBtn.onclick = currentProblem;
 }
 
 //initialize
