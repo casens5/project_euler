@@ -5,7 +5,6 @@ currentProblem = euler001
 function sumOfMultiples(limit, factor) {
   let sum = 0;
   limit = Math.ceil(limit/factor);
-  let i = 0;
   for (i = 0; i < limit; i++) {
     sum += i*factor;
   }

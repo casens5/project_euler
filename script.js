@@ -16,40 +16,40 @@ problemSelector.addEventListener("change", function(event) {
   if (problemCollection[problem] === undefined) {
     fetchProblem(String(problem));
   }
-	loadProblemElements(problem);
+  loadProblemElements(problem);
 });
 
 function fetchProblem(id) {
   problemCollection[id] = {};
-  fetch(`./statement${id}.html`).then(function(response) {
+  fetch(`./problems/statements/${id}.html`).then(function(response) {
     let text = response.text().then(function(text) {
       problemCollection[id].statement = text;
     });
   });
-  fetch(`./euler${id}.js`).then(function(response) {
+  fetch(`./problems/solutions/${id}.js`).then(function(response) {
     let text = response.text().then(function(text) {
       problemCollection[id].code = text;
     });
   });
-  problemCollection[id].codeSrc = `euler${id}.js`;
+  problemCollection[id].codeSrc = `./problems/solutions/${id}.js`;
 }
 
 function loadProblemElements(id) {
   let script = document.createElement("script");
   script.src = problemCollection[id].codeSrc;
   document.head.appendChild(script);
-	problemStatement.innerHTML = problemCollection[id].statement;
-	problemCode.textContent = problemCollection[id].code;
+  problemStatement.innerHTML = problemCollection[id].statement;
+  problemCode.innerHTML = problemCollection[id].code;
 
-	assignProblem();
+  assignProblem();
 }
 
 function displayResult(result) {
-	problemOutput.textContent = result;
+  problemOutput.textContent = result;
 }
 
 function assignProblem() {
-	executeBtn.onclick = currentProblem;
+  executeBtn.onclick = currentProblem;
 }
 
 //initialize
