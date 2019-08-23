@@ -16,10 +16,10 @@ const problemCollection = {
 };
 
 problemSelector.addEventListener("change", function(event) {
-  var problem = event.target.value;
+  var problem = event.target.value; // this is a string
   console.log("switch to problem ", problem);
   if (problemCollection[problem] === undefined) {
-    fetchProblem(String(problem));
+    fetchProblem(problem);
   } else {
     loadProblemElements(problem);
   }
@@ -29,19 +29,30 @@ problemSelector.addEventListener("change", function(event) {
 function fetchProblem(id) {
   problemCollection[id] = {};
   fetch(`./problems/statements/${id}.html`).then(function(response) {
-    let text = response.text().then(function(text) {
-      problemCollection[id].statement = text;
-    });
-    console.log("problem statement assigned:", id);
-  });
-  fetch(`./problems/solutions/${id}.js`)
-    .then(function(response) {
-      let text = response.text().then(function(text) {
-        problemCollection[id].code = text;
+    let text = response
+      .text()
+      .then(function(text) {
+        problemCollection[id].statement = text;
+        console.log("problem statement assigned:", id);
+      })
+      .then(function() {
+        fetch(`./problems/solutions/${id}.js`).then(function(response) {
+          let text = response
+            .text()
+            .then(function(text) {
+              problemCollection[id].code = text;
+              console.log("problem code assigned");
+            })
+            .then(function() {
+              problemCollection[id].codeSrc = `./problems/solutions/${id}.js`;
+              console.log("script assigned");
+            })
+            .then(function() {
+              loadProblemElements(id);
+            });
+        });
       });
-    })
-    .then((problemCollection[id].codeSrc = `./problems/solutions/${id}.js`))
-    .then(loadProblemElements(id));
+  });
 }
 
 function loadProblemElements(id) {
@@ -50,6 +61,7 @@ function loadProblemElements(id) {
   document.head.appendChild(script);
   problemStatement.innerHTML = problemCollection[id].statement;
   problemCode.innerHTML = problemCollection[id].code;
+  console.log("DOM filled with problem elements");
 }
 
 function displayResult(result) {
