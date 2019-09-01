@@ -4,7 +4,8 @@ const problemSelector = document.querySelector("#problemSelector");
 const problemStatement = document.querySelector("#problemStatement");
 const problemCode = document.querySelector("#problemCode");
 const problemOutput = document.querySelector("#problemOutput");
-const executeBtn = document.querySelector("#execute");
+const executeBtn = document.querySelector("#executeProblem");
+const clearBtn = document.querySelector("#clearOutput");
 const functionsObj = {};
 
 const problemCollection = {
@@ -64,10 +65,10 @@ function loadProblemElements(id) {
   console.log("DOM filled with problem elements");
 }
 
-function displayResult(result) {
-  problemOutput.textContent = result;
+function displayAnswer(functionName) {
+  problemOutput.textContent = eval(functionName + "()");
 }
 
 function assignExecuteBtn(id) {
-  executeBtn.onclick = eval(`euler${id}()`);
+  executeBtn.onclick = displayAnswer(`euler${id}`);
 }
