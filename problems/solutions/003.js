@@ -11,6 +11,5 @@ function euler003(inputNum = 600851475143) {
       i -= 1;
     }
   }
-  console.log(inputNum);
-  displayResult(inputNum);
+  return inputNum;
 }

@@ -14,6 +14,5 @@ function euler001() {
   let fives = sumOfMultiples(1000, 5);
   let fifteens = sumOfMultiples(1000, 15);
   let result = threes + fives - fifteens;
-  displayResult(result);
-  console.log(result);
+  return result;
 }

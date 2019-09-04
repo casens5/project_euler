@@ -6,9 +6,6 @@ function reverse(s) {
     .reverse()
     .join("");
 }
-function makePalindrome(input) {
-  String(input) + reverse(String(input));
-}
 
 function euler004() {
   let stop = false;
@@ -30,6 +27,5 @@ function euler004() {
       }
     }
   }
-  console.log(product);
   return product;
 }

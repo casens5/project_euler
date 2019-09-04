@@ -11,6 +11,5 @@ function euler002(limit = 4000000) {
       sumOfEvens += num;
     }
   }
-  displayResult(sumOfEvens);
-  console.log(sumOfEvens);
+  return sumOfEvens;
 }

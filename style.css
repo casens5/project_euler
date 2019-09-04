@@ -2,14 +2,25 @@ html {
   background: #222833;
   color: #ddb;
   font-family: Arial, sans-serif;
-}
+  font-size: 16px; }
 
 .input {
   background: #371d4a;
   color: #fff;
   border-radius: 6px;
   border: 3px outset #641b82;
-  padding: 3px 8px;
-}
+  padding: 3px 8px; }
+
+.code {
+  font-family: monospace; }
+
+.center {
+  text-align: center; }
+
+.red {
+  color: #d66; }
+
+.bold {
+  font-weight: bold; }
 
 /*# sourceMappingURL=style.css.map */

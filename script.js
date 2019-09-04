@@ -5,8 +5,7 @@ const problemStatement = document.querySelector("#problemStatement");
 const problemCode = document.querySelector("#problemCode");
 const problemOutput = document.querySelector("#problemOutput");
 const executeBtn = document.querySelector("#executeProblem");
-const clearBtn = document.querySelector("#clearOutput");
-const functionsObj = {};
+const clearBtn = document.querySelector("#clearAnswer");
 
 const problemCollection = {
   "-": {
@@ -14,6 +13,10 @@ const problemCollection = {
     statement: null,
     code: null
   }
+};
+
+clearBtn.onclick = function() {
+  displayAnswer(null);
 };
 
 problemSelector.addEventListener("change", function(event) {
@@ -24,7 +27,6 @@ problemSelector.addEventListener("change", function(event) {
   } else {
     loadProblemElements(problem);
   }
-  assignExecuteBtn(problem);
 });
 
 function fetchProblem(id) {
@@ -59,16 +61,18 @@ function fetchProblem(id) {
 function loadProblemElements(id) {
   let script = document.createElement("script");
   script.src = problemCollection[id].codeSrc;
+  script.async = false;
+  script.onload = function() {
+    executeBtn.onClick = function() {
+      displayAnswer(window[`euler${id}`]());
+    };
+  };
   document.head.appendChild(script);
   problemStatement.innerHTML = problemCollection[id].statement;
   problemCode.innerHTML = problemCollection[id].code;
   console.log("DOM filled with problem elements");
 }
 
-function displayAnswer(functionName) {
-  problemOutput.textContent = eval(functionName + "()");
-}
-
-function assignExecuteBtn(id) {
-  executeBtn.onclick = displayAnswer(`euler${id}`);
+function displayAnswer(string) {
+  problemOutput.textContent = string;
 }
