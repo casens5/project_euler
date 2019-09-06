@@ -11,10 +11,17 @@ html {
   align-items: baseline; }
 
 .indent {
+  margin-top: 5px;
   margin-left: 22px; }
 
+.label {
+  color: #d179fa; }
+
+.output {
+  margin-top: 13px; }
+
 .expando {
-  background: #ffffff22;
+  background: #ffffff1d;
   align-self: stretch;
   margin: 11px;
   padding: 11px;
@@ -30,12 +37,12 @@ html {
 .hidden {
   display: none; }
 
+.open-box {
+  display: inline-block;
+  min-width: 23px; }
+
 .code {
   font-family: monospace; }
-
-.harold {
-  margin-top: 11px;
-  margin-bottom: 11px; }
 
 .center {
   text-align: center; }
