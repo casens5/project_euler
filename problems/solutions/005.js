@@ -1,10 +1,39 @@
-// make a hash of prime numbers
-// iterate through numbers decomposing prime factors
-// update hash with the largest count of prime factors
-// (ie. when reaching 8, update "2" to "2: 3")
-// after reaching 20, multiply the hash together to get the smallest number
-
-// also need to create a "title text" box function for <dfn> elements
-// actually jk, but i can change its CSS if i want
-
 "use strict";
+
+let primes = {};
+
+function factorize(input) {
+  let sqrt = Math.sqrt(input);
+  let factors = {};
+  for (let n = 2; n <= sqrt && input > 1; n++) {
+    if (input % n == 0) {
+      if (factors[n] == undefined) {
+        factors[n] = 0;
+      }
+      factors[n]++;
+      input = input / n;
+      n--;
+    }
+  }
+  if (factors[input] == undefined) {
+    factors[input] = 0;
+  }
+  factors[input]++;
+  return factors;
+}
+
+function accumulator(acc, item) {
+  return acc * item[0] ** item[1];
+}
+
+function euler005(limit = 20) {
+  for (let i = 2; i <= limit; i++) {
+    let factors = factorize(i);
+    Object.entries(factors).forEach(function(item) {
+      if (primes[item[0]] == undefined || primes[item[0]] < item[1]) {
+        primes[item[0]] = item[1];
+      }
+    });
+  }
+  return Object.entries(primes).reduce(accumulator, 1);
+}

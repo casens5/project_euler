@@ -23,15 +23,20 @@ dom.clearBtn.onclick = function() {
   displayAnswer(null);
 };
 
+// event.target.value is a string
 dom.problemSelector.addEventListener("change", function(event) {
-  var problem = event.target.value; // this is a string
+  go(event.target.value);
+});
+
+function go(problem) {
   console.log("switch to problem ", problem);
+  problem = String(problem).padStart(3, "0");
   if (problemsObj[problem] === undefined) {
     fetchProblem(problem);
   } else {
     loadProblemElements(problem);
   }
-});
+}
 
 function buildExpandos() {
   let targets = document.querySelectorAll(".expando");
@@ -43,7 +48,7 @@ function buildExpandos() {
     let text = document.createElement("span");
     item.show = true;
     content.classList = "content";
-    label.classList = "label";
+    label.classList = "purple";
     openBox.classList = "open-box";
     text.textContent = labels.shift();
     openBox.textContent = "[-]";
@@ -126,7 +131,6 @@ function loadProblemElements(id) {
   script.async = false;
   script.onload = function() {
     dom.executeBtn.onclick = function() {
-      console.log("i am being clicked");
       displayAnswer(window[`euler${id}`]());
     };
   };
@@ -145,3 +149,8 @@ function displayAnswer(string) {
 }
 
 buildExpandos();
+
+console.log("hello there.");
+console.log(
+  "problems can be conveniently loaded from the console by typing `go(id)`"
+);
