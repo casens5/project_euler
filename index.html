@@ -6,29 +6,34 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div id="problemSelection">
-      <span>display problem:</span>
-      <select id="problemSelector" class="input">
-        <option value="-"> - </option>
-        <option value="001">001</option>
-        <option value="002">002</option>
-        <option value="003">003</option>
-        <option value="004">004</option>
-        <!--<option value="005">005</option>-->
-        <option value="006">006</option>
-        <!--<option value="009">009</option>-->
-        <!--<option value="012">012</option>-->
-        <!--<option value="014">014</option>-->
-        <!--<option value="018">018</option>-->
-      </select>
+    <div id="container" class="container">
+      <div id="hoh">what's it to you</div>
+      <div id="problemSelection" class="indent">
+        <span>display problem:</span>
+        <select id="problemSelector" class="input">
+          <option value="-"> - </option>
+          <option value="001">001</option>
+          <option value="002">002</option>
+          <option value="003">003</option>
+          <option value="004">004</option>
+          <!--<option value="005">005</option>-->
+          <option value="006">006</option>
+          <!--<option value="009">009</option>-->
+          <!--<option value="012">012</option>-->
+          <!--<option value="014">014</option>-->
+          <!--<option value="018">018</option>-->
+        </select>
+      </div>
+      <div id="statementDiv" class="expando"></div>
+      <div id="dataDiv" class="expando"></div>
+      <div id="codeDiv" class="expando"></div>
+      <div id="buttonsDiv" class="indent buttons-div">
+        <button id="executeBtn" class="input">run</button>
+        <span> - </span>
+        <button id="clearBtn" class="input">clear</button>
+      </div>
+      <div id="outputDiv" class="code"></div>
     </div>
-    <div id="problemStatement"></div>
-    <div id="problemData"></div>
-    <div id="problemCode" class="code"></div>
-    <button id="executeProblem" class="input">run</button>
-    <span> - </span>
-    <button id="clearAnswer" class="input">clear</button>
-    <div id="problemOutput" class="code"></div>
   </body>
   <script language="JavaScript" type="text/javascript" src="script.js"></script>
 </html>

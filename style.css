@@ -4,6 +4,22 @@ html {
   font-family: Arial, sans-serif;
   font-size: 16px; }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline; }
+
+.indent {
+  margin-left: 22px; }
+
+.expando {
+  background: #ffffff22;
+  align-self: stretch;
+  margin: 11px;
+  padding: 11px;
+  border-radius: 7px; }
+
 .input {
   background: #371d4a;
   color: #fff;
@@ -11,8 +27,15 @@ html {
   border: 3px outset #641b82;
   padding: 3px 8px; }
 
+.hidden {
+  display: none; }
+
 .code {
   font-family: monospace; }
+
+.harold {
+  margin-top: 11px;
+  margin-bottom: 11px; }
 
 .center {
   text-align: center; }

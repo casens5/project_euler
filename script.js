@@ -1,13 +1,6 @@
 "use strict";
 
-const problemSelector = document.querySelector("#problemSelector");
-const problemStatement = document.querySelector("#problemStatement");
-const problemCode = document.querySelector("#problemCode");
-const problemOutput = document.querySelector("#problemOutput");
-const executeBtn = document.querySelector("#executeProblem");
-const clearBtn = document.querySelector("#clearAnswer");
-
-const problemCollection = {
+const problemsObj = {
   "-": {
     codeSrc: null,
     statement: null,
@@ -22,20 +15,38 @@ clearBtn.onclick = function() {
 problemSelector.addEventListener("change", function(event) {
   var problem = event.target.value; // this is a string
   console.log("switch to problem ", problem);
-  if (problemCollection[problem] === undefined) {
+  if (problemsObj[problem] === undefined) {
     fetchProblem(problem);
   } else {
     loadProblemElements(problem);
   }
 });
 
+function buildExpandos() {
+  let targets = document.querySelectorAll(".expando");
+  let labels = ["problem", "data", "code"];
+  targets.forEach(function(item) {
+    let label = document.createElement("span");
+    let content = document.createElement("div");
+    content.classList = "content";
+    label.classList = "label";
+    label.textContent = labels.shift();
+    item.appendChild(label);
+    item.appendChild(content);
+    label.addEventListener("click", function(event) {
+      item.children[1].classList.toggle("hidden");
+    });
+  });
+  codeDiv.children[1].classList.add("code", "harold", "hidden");
+}
+
 function fetchProblem(id) {
-  problemCollection[id] = {};
+  problemsObj[id] = {};
   fetch(`./problems/statements/${id}.html`).then(function(response) {
     let text = response
       .text()
       .then(function(text) {
-        problemCollection[id].statement = text;
+        problemsObj[id].statement = text;
         console.log("problem statement assigned:", id);
       })
       .then(function() {
@@ -43,11 +54,11 @@ function fetchProblem(id) {
           let text = response
             .text()
             .then(function(text) {
-              problemCollection[id].code = text;
+              problemsObj[id].code = text;
               console.log("problem code assigned");
             })
             .then(function() {
-              problemCollection[id].codeSrc = `./problems/solutions/${id}.js`;
+              problemsObj[id].codeSrc = `./problems/solutions/${id}.js`;
               console.log("script assigned");
             })
             .then(function() {
@@ -60,7 +71,7 @@ function fetchProblem(id) {
 
 function loadProblemElements(id) {
   let script = document.createElement("script");
-  script.src = problemCollection[id].codeSrc;
+  script.src = problemsObj[id].codeSrc;
   script.async = false;
   script.onload = function() {
     executeBtn.onClick = function() {
@@ -68,11 +79,15 @@ function loadProblemElements(id) {
     };
   };
   document.head.appendChild(script);
-  problemStatement.innerHTML = problemCollection[id].statement;
-  problemCode.innerHTML = problemCollection[id].code;
+  statementDiv.children[1].innerHTML = problemsObj[id].statement;
+  codeDiv.children[1].innerHTML = problemsObj[id].code;
+  statementDiv.children[1].classList.remove("hidden");
+  codeDiv.children[1].classList.remove("hidden");
   console.log("DOM filled with problem elements");
 }
 
 function displayAnswer(string) {
-  problemOutput.textContent = string;
+  outputDiv.textContent = string;
 }
+
+buildExpandos();
