@@ -6,22 +6,21 @@ const dom = {
   codeDiv: document.querySelector("#codeDiv"),
   dataDiv: document.querySelector("#dataDiv"),
   outputDiv: document.querySelector("#outputDiv"),
+  output: document.querySelector("#output"),
   executeBtn: document.querySelector("#executeBtn"),
   clearBtn: document.querySelector("#clearBtn")
 };
 
 const problemsObj = {
-  "-": {
-    codeSrc: null,
-    statement: null,
-    code: null,
-    data: null
+  "00-": {
+    codeSrc: "null",
+    statement: "null",
+    code: "null",
+    data: "null"
   }
 };
 
-dom.clearBtn.onclick = function() {
-  displayAnswer(null);
-};
+dom.clearBtn.onclick = clearAnswer;
 
 // event.target.value is a string
 dom.problemSelector.addEventListener("change", function(event) {
@@ -44,6 +43,12 @@ function buildExpandos() {
   targets.forEach(function(item) {
     let label = document.createElement("span");
     let content = document.createElement("div");
+    if (item.id == "codeDiv" || item.id == "dataDiv") {
+      content = document.createElement("pre");
+      let inner = document.createElement("code");
+      content.appendChild(inner);
+      content.classList.add("code");
+    }
     let openBox = document.createElement("span");
     let text = document.createElement("span");
     item.show = true;
@@ -60,7 +65,7 @@ function buildExpandos() {
       toggleField(item, "toggle");
     });
   });
-  dom.codeDiv.children[1].classList.add("code");
+  dom.codeDiv.children[1].classList.add("js");
 }
 
 // ten indents is too many god damn indents
@@ -89,7 +94,7 @@ function fetchProblem(id) {
               fetch(`./problems/data/${id}.txt`)
                 .then(function(response) {
                   if (response.statusText == "File not found") {
-                    problemsObj[id].data = null;
+                    problemsObj[id].data = "null";
                   } else {
                     let text = response.text().then(function(text) {
                       problemsObj[id].data = text;
@@ -126,29 +131,41 @@ function toggleField(node, onOrOff) {
 }
 
 function loadProblemElements(id) {
-  let script = document.createElement("script");
-  script.src = problemsObj[id].codeSrc;
-  script.async = false;
-  script.onload = function() {
-    dom.executeBtn.onclick = function() {
-      displayAnswer(window[`euler${id}`]());
+  if (id !== "00-") {
+    let script = document.createElement("script");
+    script.src = problemsObj[id].codeSrc;
+    script.async = false;
+    script.onload = function() {
+      dom.executeBtn.onclick = function() {
+        displayAnswer(id);
+      };
     };
-  };
-  document.head.appendChild(script);
+    document.head.appendChild(script);
+  }
   dom.statementDiv.children[1].innerHTML = problemsObj[id].statement;
   dom.codeDiv.children[1].innerHTML = problemsObj[id].code;
+  dom.dataDiv.children[1].innerHTML = problemsObj[id].data;
+  hljs.highlightBlock(dom.codeDiv.children[1]);
   toggleField(dom.statementDiv, "on");
   toggleField(dom.codeDiv, "on");
   toggleField(dom.dataDiv, "off");
-  displayAnswer(null);
+  clearAnswer();
   console.log("DOM filled with problem elements");
 }
 
-function displayAnswer(string) {
-  dom.outputDiv.textContent = string;
+function displayAnswer(id) {
+  dom.output.textContent = window[`euler${id}`]();
 }
 
+function clearAnswer() {
+  dom.output.textContent = null;
+}
+
+//init
 buildExpandos();
+loadProblemElements("00-");
+toggleField(dom.statementDiv, "off");
+toggleField(dom.codeDiv, "off");
 
 console.log("hello there.");
 console.log(

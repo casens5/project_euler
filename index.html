@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <title>project euler <333</title>
+    <link rel="stylesheet" href="/hljs_dark.css" />
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -23,16 +24,18 @@
           <!--<option value="018">018</option>-->
         </select>
       </div>
-      <div id="statementDiv" class="expando"></div>
-      <div id="dataDiv" class="expando"></div>
-      <div id="codeDiv" class="expando"></div>
+      <div id="statementDiv" class="expando field"></div>
+      <div id="dataDiv" class="expando field"></div>
+      <div id="codeDiv" class="expando field"></div>
       <div id="buttonsDiv" class="indent buttons-div">
         <button id="executeBtn" class="input">run</button>
-        <span> - </span>
-        <button id="clearBtn" class="input">clear</button>
+        <button id="clearBtn" class="input small-indent">clear</button>
       </div>
-      <div id="outputDiv" class="code indent output"></div>
+      <div id="outputDiv" class="field">
+        <code>$ </code><code id="output"></code>
+      </div>
     </div>
   </body>
-  <script language="JavaScript" type="text/javascript" src="script.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js"></script>
+  <script src="script.js"></script>
 </html>

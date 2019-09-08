@@ -1,6 +1,6 @@
 html {
-  background: #222833;
-  color: #ddb;
+  background: #111721;
+  color: #c4c8d4;
   font-family: Arial, sans-serif;
   font-size: 16px; }
 
@@ -10,9 +10,19 @@ html {
   justify-content: center;
   align-items: baseline; }
 
+pre {
+  margin: 0px; }
+
+.content {
+  margin: 0.5em; }
+
 .indent {
   margin-top: 5px;
+  margin-bottom: 7px;
   margin-left: 22px; }
+
+.small-indent {
+  margin-left: 11px; }
 
 .purple {
   color: #d179fa; }
@@ -20,16 +30,16 @@ html {
 .output {
   margin-top: 13px; }
 
-.expando {
-  background: #ffffff1d;
+.field {
+  background: #ffffff14;
   align-self: stretch;
-  margin: 11px;
+  margin: 0.7em;
   padding: 11px;
   border-radius: 7px; }
 
 .input {
   background: #371d4a;
-  color: #fff;
+  color: #fbf;
   border-radius: 6px;
   border: 3px outset #641b82;
   padding: 3px 8px; }
@@ -40,9 +50,6 @@ html {
 .open-box {
   display: inline-block;
   min-width: 23px; }
-
-.code {
-  font-family: monospace; }
 
 .center {
   text-align: center; }
