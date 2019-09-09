@@ -12,9 +12,9 @@ const dom = {
 };
 
 const problemsObj = {
-  "00-": {
+  "---": {
     codeSrc: "null",
-    statement: "null",
+    statement: "<p>null</p>",
     code: "null",
     data: "null"
   }
@@ -28,7 +28,7 @@ dom.problemSelector.addEventListener("change", function(event) {
 });
 
 function go(problem) {
-  console.log("switch to problem ", problem);
+  //console.log("switch to problem ", problem);
   problem = String(problem).padStart(3, "0");
   if (problemsObj[problem] === undefined) {
     fetchProblem(problem);
@@ -65,6 +65,7 @@ function buildExpandos() {
       toggleField(item, "toggle");
     });
   });
+  dom.statementDiv.children[1].classList.add("no-vertical-padding");
   dom.codeDiv.children[1].classList.add("js");
 }
 
@@ -76,7 +77,7 @@ function fetchProblem(id) {
       .text()
       .then(function(text) {
         problemsObj[id].statement = text;
-        console.log("problem statement assigned:", id);
+        //console.log("problem statement assigned:", id);
       })
       .then(function() {
         fetch(`./problems/solutions/${id}.js`).then(function(response) {
@@ -84,11 +85,11 @@ function fetchProblem(id) {
             .text()
             .then(function(text) {
               problemsObj[id].code = text;
-              console.log("problem code assigned");
+              //console.log("problem code assigned");
             })
             .then(function() {
               problemsObj[id].codeSrc = `./problems/solutions/${id}.js`;
-              console.log("script assigned");
+              //console.log("script assigned");
             })
             .then(function() {
               fetch(`./problems/data/${id}.txt`)
@@ -98,7 +99,7 @@ function fetchProblem(id) {
                   } else {
                     let text = response.text().then(function(text) {
                       problemsObj[id].data = text;
-                      console.log("problem data evaluated");
+                      //console.log("problem data evaluated");
                     });
                   }
                 })
@@ -131,7 +132,7 @@ function toggleField(node, onOrOff) {
 }
 
 function loadProblemElements(id) {
-  if (id !== "00-") {
+  if (id !== "---") {
     let script = document.createElement("script");
     script.src = problemsObj[id].codeSrc;
     script.async = false;
@@ -141,6 +142,10 @@ function loadProblemElements(id) {
       };
     };
     document.head.appendChild(script);
+  } else {
+    dom.executeBtn.onclick = function() {
+      dom.output.textContent = "null";
+    };
   }
   dom.statementDiv.children[1].innerHTML = problemsObj[id].statement;
   dom.codeDiv.children[1].innerHTML = problemsObj[id].code;
@@ -150,7 +155,7 @@ function loadProblemElements(id) {
   toggleField(dom.codeDiv, "on");
   toggleField(dom.dataDiv, "off");
   clearAnswer();
-  console.log("DOM filled with problem elements");
+  //console.log("DOM filled with problem elements");
 }
 
 function displayAnswer(id) {
@@ -163,11 +168,11 @@ function clearAnswer() {
 
 //init
 buildExpandos();
-loadProblemElements("00-");
+loadProblemElements("---");
 toggleField(dom.statementDiv, "off");
 toggleField(dom.codeDiv, "off");
 
-console.log("hello there.");
-console.log(
-  "problems can be conveniently loaded from the console by typing `go(id)`"
-);
+let welcome = `hello there.
+problems can be conveniently loaded from the console by typing \`go(id)\`,
+then executed with \`euler{id}()\``;
+console.log(welcome);
