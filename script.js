@@ -82,10 +82,11 @@ function fetchProblem(id) {
             let text = res
               .text()
               .then(function(text) {
-                if (res.statusText == "File not found") {
-                  problemsObj[id].data = "null";
-                } else {
+                console.log(res);
+                if (res.ok) {
                   problemsObj[id].data = text;
+                } else {
+                  problemsObj[id].data = "null";
                 }
               })
               .then(function() {
