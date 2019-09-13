@@ -1,5 +1,6 @@
 "use strict";
 
+<<<<<<< HEAD
 function euler008(bigNum = problemsObj["008"].data) {
   let unbrokenString = bigNum.split("\n").join("");
   let removedZeroes = unbrokenString.split(/0+/);
@@ -22,3 +23,6 @@ function euler008(bigNum = problemsObj["008"].data) {
   });
   return greatestProduct;
 }
+=======
+function euler008(bigNum = problemsObj["008"]) {}
+>>>>>>> parent of 547c38a... adjust minor CSS elements, semantic HTML tags

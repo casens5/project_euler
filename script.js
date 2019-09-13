@@ -62,7 +62,7 @@ function buildExpandos() {
     label.appendChild(openBox);
     label.appendChild(text);
     label.addEventListener("click", function() {
-      toggleField(item);
+      toggleField(item, "toggle");
     });
   });
   dom.statementDiv.children[1].classList.add("no-vertical-padding");
@@ -82,6 +82,7 @@ function fetchProblem(id) {
             let text = res
               .text()
               .then(function(text) {
+                console.log(res);
                 if (res.statusText == "File not found") {
                   problemsObj[id].data = "null";
                 } else {
@@ -98,7 +99,7 @@ function fetchProblem(id) {
   });
 }
 
-function toggleField(node, onOrOff = "toggle") {
+function toggleField(node, onOrOff) {
   if (onOrOff == "toggle") {
     if (node.show) {
       onOrOff = "off";
@@ -118,6 +119,7 @@ function toggleField(node, onOrOff = "toggle") {
 }
 
 function loadProblemElements(id) {
+  console.log("loading the ", id);
   if (id !== "---") {
     let script = document.createElement("script");
     script.src = problemsObj[id].codeSrc;
