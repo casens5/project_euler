@@ -11,7 +11,8 @@ html {
   align-items: baseline; }
 
 pre {
-  margin: 0px; }
+  margin: 0px;
+  font-size: 14px; }
 
 .content {
   margin: 0.5em;
@@ -27,9 +28,6 @@ pre {
 
 .purple, dfn, a {
   color: #d179fa; }
-
-.output {
-  margin-top: 13px; }
 
 .field {
   background: rgba(255, 255, 255, 0.08);
