@@ -61,7 +61,7 @@ function buildExpandos() {
     item.appendChild(content);
     label.appendChild(openBox);
     label.appendChild(text);
-    label.addEventListener("click", function(event) {
+    label.addEventListener("click", function() {
       toggleField(item, "toggle");
     });
   });
@@ -69,46 +69,33 @@ function buildExpandos() {
   dom.codeDiv.children[1].classList.add("js");
 }
 
-// ten indents is too many god damn indents
 function fetchProblem(id) {
   problemsObj[id] = {};
-  fetch(`./problems/statements/${id}.html`).then(function(response) {
-    let text = response
-      .text()
-      .then(function(text) {
-        problemsObj[id].statement = text;
-        //console.log("problem statement assigned:", id);
-      })
-      .then(function() {
-        fetch(`./problems/solutions/${id}.js`).then(function(response) {
-          let text = response
-            .text()
-            .then(function(text) {
-              problemsObj[id].code = text;
-              //console.log("problem code assigned");
-            })
-            .then(function() {
-              problemsObj[id].codeSrc = `./problems/solutions/${id}.js`;
-              //console.log("script assigned");
-            })
-            .then(function() {
-              fetch(`./problems/data/${id}.txt`)
-                .then(function(response) {
-                  if (response.statusText == "File not found") {
-                    problemsObj[id].data = "null";
-                  } else {
-                    let text = response.text().then(function(text) {
-                      problemsObj[id].data = text;
-                      //console.log("problem data evaluated");
-                    });
-                  }
-                })
-                .then(function() {
-                  loadProblemElements(id);
-                });
-            });
+  fetch(`./problems/statements/${id}.html`).then(function(res) {
+    let text = res.text().then(function(text) {
+      problemsObj[id].statement = text;
+      fetch(`./problems/solutions/${id}.js`).then(function(res) {
+        let text = res.text().then(function(text) {
+          problemsObj[id].code = text;
+          problemsObj[id].codeSrc = `./problems/solutions/${id}.js`;
+          fetch(`./problems/data/${id}.txt`).then(function(res) {
+            let text = res
+              .text()
+              .then(function(text) {
+                console.log(res);
+                if (res.statusText == "File not found") {
+                  problemsObj[id].data = "null";
+                } else {
+                  problemsObj[id].data = text;
+                }
+              })
+              .then(function() {
+                loadProblemElements(id);
+              });
+          });
         });
       });
+    });
   });
 }
 
@@ -132,6 +119,7 @@ function toggleField(node, onOrOff) {
 }
 
 function loadProblemElements(id) {
+  console.log("loading the ", id);
   if (id !== "---") {
     let script = document.createElement("script");
     script.src = problemsObj[id].codeSrc;
@@ -151,6 +139,11 @@ function loadProblemElements(id) {
   dom.codeDiv.children[1].innerHTML = problemsObj[id].code;
   dom.dataDiv.children[1].innerHTML = problemsObj[id].data;
   hljs.highlightBlock(dom.codeDiv.children[1]);
+  document.querySelectorAll(".open").forEach(function(item) {
+    item.addEventListener("click", function(event) {
+      toggleField(dom[event.target.dataset.open], "on");
+    });
+  });
   toggleField(dom.statementDiv, "on");
   toggleField(dom.codeDiv, "on");
   toggleField(dom.dataDiv, "off");
