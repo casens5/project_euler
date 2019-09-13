@@ -1,7 +1,5 @@
 "use strict";
 
-let primes = {};
-
 function factorize(input) {
   let sqrt = Math.sqrt(input);
   let factors = {};
@@ -27,6 +25,7 @@ function accumulator(acc, item) {
 }
 
 function euler005(limit = 20) {
+  let primes = {};
   for (let i = 2; i <= limit; i++) {
     let factors = factorize(i);
     Object.entries(factors).forEach(function(item) {
