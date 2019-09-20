@@ -82,7 +82,6 @@ function fetchProblem(id) {
             let text = res
               .text()
               .then(function(text) {
-                console.log(res);
                 if (res.ok) {
                   problemsObj[id].data = text;
                 } else {
