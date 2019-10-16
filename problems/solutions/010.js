@@ -1,5 +1,4 @@
 "use strict";
-var g;
 function euler010(limit) {
     if (limit === void 0) { limit = 2000000; }
     var primes = [];
@@ -22,6 +21,5 @@ function euler010(limit) {
         _loop_1(i);
     }
     var reducer = function (acc, val) { return acc + val; };
-    g = primes;
     return primes.reduce(reducer);
 }

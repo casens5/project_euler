@@ -1,5 +1,7 @@
 "use strict";
 
+let g;
+
 function euler010(limit = 2000000) {
   let primes = [];
   let primesToTest = [];
@@ -20,5 +22,6 @@ function euler010(limit = 2000000) {
     }
   }
   const reducer = (acc, val) => acc + val;
+  g = primes;
   return primes.reduce(reducer);
 }
