@@ -1,17 +1,18 @@
 "use strict";
-// this is DRY, but i hate the loop at line 35
+// this is general and DRY, but i hate the loop at line 35
 // but hey at least pathLength can be 0 or negative!
-var bee;
-var joe = [[0, 0], [1, 1], [2, 2], [3, 3]];
-var bob = [[6, 8], [7, 9], [8, 10], [9, 11]];
-var hey;
-function read(arrArr, path) {
-    var result = [];
-    path.forEach(function (point) {
-        result.push(arrArr[point[0]][point[1]]);
-    });
-    return result;
-}
+// let bee: number[][];
+// let joe = [[0, 0], [1, 1], [2, 2], [3, 3]];
+// let bob = [[6, 8], [7, 9], [8, 10], [9, 11]];
+// let hey: any;
+//
+// function read(arrArr: number[][], path: number[][]) {
+//   let result = [];
+//   path.forEach(function(point) {
+//     result.push(arrArr[point[0]][point[1]]);
+//   });
+//   return result;
+// }
 function pathMultiply(arrArr, path) {
     var product = 1;
     path.forEach(function (point) {
@@ -19,7 +20,6 @@ function pathMultiply(arrArr, path) {
     });
     return product;
 }
-// i don't know if i hate this or love it
 function euler011(bigInput, pathLength) {
     if (bigInput === void 0) { bigInput = problemsObj["011"].data; }
     if (pathLength === void 0) { pathLength = 4; }
@@ -48,6 +48,7 @@ function euler011(bigInput, pathLength) {
         var arr = element.split(" ");
         return arr.map(function (item) { return Number(item); });
     });
+    // not sure if this object is good or not
     var largestProduct = {
         value: 0,
         path: [],
@@ -80,7 +81,7 @@ function euler011(bigInput, pathLength) {
     limitI = grid.length - (pathLength - 1);
     limitJ = grid.width;
     searchGrid(limitI, limitJ, 1, -1, 0, pathLength - 1);
-    bee = bigArrArr;
-    hey = largestProduct;
+    // bee = bigArrArr;
+    // hey = largestProduct;
     return largestProduct.value;
 }
