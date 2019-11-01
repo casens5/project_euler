@@ -1,7 +1,7 @@
 "use strict";
 
 // this is general and DRY, but i hate the loop at line 35
-// but hey at least pathLength can be 0 or negative!
+// but hey at least pathLength011 can be 0 or negative!
 
 // let bee: number[][];
 // let joe = [[0, 0], [1, 1], [2, 2], [3, 3]];
@@ -15,6 +15,7 @@
 //   });
 //   return result;
 // }
+let pathLength011 = 4;
 
 function pathMultiply(arrArr: number[][], path: number[][]) {
   let product = 1;
@@ -23,34 +24,36 @@ function pathMultiply(arrArr: number[][], path: number[][]) {
   });
   return product;
 }
-
-function euler011(bigInput = problemsObj["011"].data, pathLength = 4) {
-  // this makes the code DRY, but at what price?
-  function searchGrid(
-    limitI: number,
-    limitJ: number,
-    incrementI: number,
-    incrementJ: number,
-    startI = 0,
-    startJ = 0
-  ) {
-    let i: number;
-    let j: number;
-    let path: number[][] = [];
-    for (i = startI; i < limitI; i++) {
-      for (j = startJ; j < limitJ; j++) {
-        // there's got to be a better way
-        for (let n = 0; n < pathLength; n++) {
-          path.push([i + incrementI * n, j + incrementJ * n]);
-        }
-        let product = pathMultiply(bigArrArr, path);
-        largestProduct.update(product, path);
-        // yeah this sucks
-        path = [];
+// this makes the code DRY, but at what price?
+function searchGrid(
+  limitI: number,
+  limitJ: number,
+  incrementI: number,
+  incrementJ: number,
+  startI = 0,
+  startJ = 0
+) {
+  let i: number;
+  let j: number;
+  let path: number[][] = [];
+  for (i = startI; i < limitI; i++) {
+    for (j = startJ; j < limitJ; j++) {
+      // there's got to be a better way
+      for (let n = 0; n < pathLength011; n++) {
+        path.push([i + incrementI * n, j + incrementJ * n]);
       }
+      let product = pathMultiply(bigArrArr, path);
+      largestProduct.update(product, path);
+      // yeah this sucks
+      path = [];
     }
   }
+}
 
+function euler011(bigInput = problemsObj["011"].data, newPathLength?: number) {
+  if (newPathLength) {
+    pathLength011 = newPathLength;
+  }
   let bigArray = bigInput.split("\n");
   let bigArrArr = bigArray.map((element: string) => {
     let arr = element.split(" ");
@@ -76,23 +79,23 @@ function euler011(bigInput = problemsObj["011"].data, pathLength = 4) {
 
   // west to east
   limitI = grid.length;
-  limitJ = grid.width - (pathLength - 1);
+  limitJ = grid.width - (pathLength011 - 1);
   searchGrid(limitI, limitJ, 0, 1);
 
   // north to south
-  limitI = grid.length - (pathLength - 1);
+  limitI = grid.length - (pathLength011 - 1);
   limitJ = grid.width;
   searchGrid(limitI, limitJ, 1, 0);
 
   // NW to SE
-  limitI = grid.length - (pathLength - 1);
-  limitJ = grid.width - (pathLength - 1);
+  limitI = grid.length - (pathLength011 - 1);
+  limitJ = grid.width - (pathLength011 - 1);
   searchGrid(limitI, limitJ, 1, 1);
 
   // NE to SW
-  limitI = grid.length - (pathLength - 1);
+  limitI = grid.length - (pathLength011 - 1);
   limitJ = grid.width;
-  searchGrid(limitI, limitJ, 1, -1, 0, pathLength - 1);
+  searchGrid(limitI, limitJ, 1, -1, 0, pathLength011 - 1);
 
   // bee = bigArrArr;
   // hey = largestProduct;
