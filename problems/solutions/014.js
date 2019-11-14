@@ -1,5 +1,6 @@
 "use strict";
-//crashes due to lack of memory somewhere between 5 million and 8 million.  but good enough for the stated problem
+// crashes due to lack of memory somewhere between 5 million and 8 million.
+// but good enough for the stated problem
 // ... in firefox, at least.  apparently chromium won't quit so easily
 function euler014(limit) {
     if (limit === void 0) { limit = 1000000; }
@@ -15,10 +16,12 @@ function euler014(limit) {
             return 3 * input + 1;
         }
     }
-    var collatzTree = new Object();
-    collatzTree[1] = new Node(0, null);
-    collatzTree[2] = new Node(1, 1);
-    collatzTree[4] = new Node(2, 2);
+    // number: (length until 1, pointer)
+    var collatzTree = {
+        1: new Node(0, null),
+        2: new Node(1, 1),
+        4: new Node(2, 2)
+    };
     var longestRun = 4;
     var collatzCache;
     function collatzRun(input) {
@@ -28,7 +31,7 @@ function euler014(limit) {
             collatzRun(collatz(input));
         }
         else {
-            // add the collatz cache as a tree branch
+            // add collatzCache as a tree branch
             var length_1 = collatzTree[input].length;
             var pointer_1 = input;
             collatzCache.reverse().forEach(function (node) {
@@ -42,8 +45,9 @@ function euler014(limit) {
             }
         }
     }
-    // searches every integer in order, but collatzRun() can handle items that are already in collatzTree
-    for (var i = 3; i < limit; i++) {
+    // searches every integer in order, but collatzRun() can handle items that
+    // are already in collatzTree
+    for (var i = 3; i <= limit; i++) {
         collatzCache = [];
         collatzRun(i);
     }
