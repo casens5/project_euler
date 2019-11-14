@@ -15,51 +15,24 @@ const problemsObj = {
 
 $("clearBtn").onclick = clearAnswer;
 
-// event.target.value is a string
 $("problemSelector").addEventListener("change", function(event) {
-  go(event.target.value);
+  loadProblem(event.target.value); // event.target.value is a string
 });
 
+// an alias for command line usage
 function go(problem) {
+  loadProblem(problem);
+}
+
+function loadProblem(problem) {
   //console.log("switch to problem ", problem);
   problem = String(problem).padStart(3, "0");
+  // only use the fetch API if we haven't already
   if (problemsObj[problem] === undefined) {
     fetchProblem(problem);
   } else {
     loadProblemElements(problem);
   }
-}
-
-function buildExpandos() {
-  let targets = document.querySelectorAll(".expando");
-  let labels = ["problem", "data", "code"];
-  targets.forEach(function(item) {
-    let label = document.createElement("span");
-    let content = document.createElement("div");
-    if (item.id == "codeDiv" || item.id == "dataDiv") {
-      content = document.createElement("pre");
-      let inner = document.createElement("code");
-      content.appendChild(inner);
-      content.classList.add("code");
-    }
-    let openBox = document.createElement("span");
-    let text = document.createElement("span");
-    item.show = true;
-    content.classList = "content";
-    label.classList = "purple";
-    openBox.classList = "open-box";
-    text.textContent = labels.shift();
-    openBox.textContent = "[-]";
-    item.appendChild(label);
-    item.appendChild(content);
-    label.appendChild(openBox);
-    label.appendChild(text);
-    label.addEventListener("click", function() {
-      toggleField(item);
-    });
-  });
-  $("statementDiv").children[1].classList.add("no-vertical-padding");
-  $("codeDiv").children[1].classList.add("js");
 }
 
 function fetchProblem(id) {
@@ -91,6 +64,44 @@ function fetchProblem(id) {
   });
 }
 
+function loadProblemElements(id) {
+  if (id !== "---") {
+    let script = document.createElement("script");
+    document.head.appendChild(script);
+    script.src = problemsObj[id].codeSrc;
+    script.async = false;
+    script.onload = function() {
+      $("executeBtn").onclick = function() {
+        displayAnswer(id);
+      };
+    };
+  } else {
+    // turn off functionality in the null page
+    $("executeBtn").onclick = function() {
+      $("output").textContent = "null";
+    };
+  }
+  $("statementDiv").querySelector(".content").innerHTML =
+    problemsObj[id].statement;
+  $("codeDiv").querySelector(".content").innerHTML = problemsObj[id].code;
+  $("dataDiv").querySelector(".content").innerHTML = problemsObj[id].data;
+  hljs.highlightBlock($("codeDiv").querySelector(".content"));
+  toggleField($("statementDiv"), "on");
+  toggleField($("codeDiv"), "on");
+  toggleField($("dataDiv"), "off");
+  clearAnswer();
+  //console.log("DOM filled with problem elements");
+}
+
+function addExpandoListeners() {
+  let targets = document.querySelectorAll(".expando");
+  targets.forEach(function(item) {
+    item.querySelector(".label").addEventListener("click", function() {
+      toggleField(item);
+    });
+  });
+}
+
 function toggleField(node, onOrOff = "toggle") {
   if (onOrOff == "toggle") {
     if (node.show) {
@@ -101,45 +112,13 @@ function toggleField(node, onOrOff = "toggle") {
   }
   if (onOrOff == "on") {
     node.show = true;
-    node.children[0].children[0].textContent = "[-]";
-    node.children[1].classList.remove("hidden");
+    node.querySelector("span > .open-box").textContent = "[-]";
+    node.querySelector(".content").classList.remove("hidden");
   } else {
     node.show = false;
-    node.children[0].children[0].textContent = "[+]";
-    node.children[1].classList.add("hidden");
+    node.querySelector("span > .open-box").textContent = "[+]";
+    node.querySelector(".content").classList.add("hidden");
   }
-}
-
-function loadProblemElements(id) {
-  if (id !== "---") {
-    let script = document.createElement("script");
-    script.src = problemsObj[id].codeSrc;
-    script.async = false;
-    script.onload = function() {
-      $("executeBtn").onclick = function() {
-        displayAnswer(id);
-      };
-    };
-    document.head.appendChild(script);
-  } else {
-    $("executeBtn").onclick = function() {
-      $("output").textContent = "null";
-    };
-  }
-  $("statementDiv").children[1].innerHTML = problemsObj[id].statement;
-  $("codeDiv").children[1].innerHTML = problemsObj[id].code;
-  $("dataDiv").children[1].innerHTML = problemsObj[id].data;
-  hljs.highlightBlock($("codeDiv").children[1]);
-  document.querySelectorAll(".open").forEach(function(item) {
-    item.addEventListener("click", function(event) {
-      toggleField(dom[event.target.dataset.open], "on");
-    });
-  });
-  toggleField($("statementDiv"), "on");
-  toggleField($("codeDiv"), "on");
-  toggleField($("dataDiv"), "off");
-  clearAnswer();
-  //console.log("DOM filled with problem elements");
 }
 
 function displayAnswer(id) {
@@ -151,12 +130,11 @@ function clearAnswer() {
 }
 
 //init
-buildExpandos();
+addExpandoListeners();
 loadProblemElements("---");
 toggleField($("statementDiv"), "off");
 toggleField($("codeDiv"), "off");
 
-let welcome = `hello there.
+console.log(`hello there.
 problems can be conveniently loaded from the console by typing \`go(id)\`,
-then executed with \`euler{id}()\``;
-console.log(welcome);
+then executed with \`euler{id}()\``);
